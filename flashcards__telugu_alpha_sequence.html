@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telugu Alphabet Flashcards</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .flashcard {
+            font-size: 5em; /* H1 size */
+            transition: opacity 1s ease-in-out;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="flashcard" id="flashcard"></div>
+
+    <script>
+        const teluguAlphabets = [
+            'అ', 'ఆ', 'ఇ', 'ఈ', 'ఉ', 'ఊ', 'ఋ', 'ఎ', 'ఐ', 'ఒ', 'ఓ', 'ఔ', 'అం', 'అః',
+            'క', 'ఖ', 'గ', 'ఘ', 'ఙ',
+            'చ', 'ఛ', 'జ', 'ఝ', 'ఞ',
+            'ట', 'ఠ', 'డ', 'ఢ', 'ణ',
+            'త', 'థ', 'ద', 'ధ', 'న',
+            'ప', 'ఫ', 'బ', 'భ', 'మ',
+            'య', 'ర', 'ల', 'వ', 'శ', 'ష', 'స', 'హ', 'ళ', 'క్ష', 'ఱ'
+        ];
+
+        let index = 0;
+
+        function displayAlphabet() {
+            const flashcard = document.getElementById('flashcard');
+            flashcard.style.opacity = 0; // Fade out
+            setTimeout(() => {
+                flashcard.textContent = teluguAlphabets[index]; // Update card
+                index = (index + 1) % teluguAlphabets.length; // Cycle through the array
+                flashcard.style.opacity = 1; // Fade in
+            }, 1000); // Wait for opacity transition to complete
+        }
+
+        setInterval(displayAlphabet, 5000); // Change every 5 seconds
+        displayAlphabet(); // Initial call
+    </script>
+</body>
+</html>

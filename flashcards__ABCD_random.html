@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random English Alphabet Flashcards</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .flashcard {
+            font-size: 5em; /* H1 size */
+            transition: opacity 1s ease-in-out;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="flashcard" id="flashcard"></div>
+
+    <script>
+        const englishAlphabets = [
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+        ];
+
+        function getRandomAlphabet() {
+            const randomIndex = Math.floor(Math.random() * englishAlphabets.length);
+            return englishAlphabets[randomIndex];
+        }
+
+        function displayAlphabet() {
+            const flashcard = document.getElementById('flashcard');
+            flashcard.style.opacity = 0; // Fade out
+            setTimeout(() => {
+                flashcard.textContent = getRandomAlphabet(); // Update card with a random letter
+                flashcard.style.opacity = 1; // Fade in
+            }, 1000); // Wait for opacity transition to complete
+        }
+
+        setInterval(displayAlphabet, 5000); // Change every 5 seconds
+        displayAlphabet(); // Initial call
+    </script>
+</body>
+</html>
