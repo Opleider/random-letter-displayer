@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4f7f2">
+    <title>Letter Party</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #263445;
+            --muted: #536b7c;
+            --paper: #eaf8ff;
+            --line: #b9dce9;
+            --green: #16856e;
+            --coral: #e85c45;
+            --blue: #287ca4;
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            min-width: 320px;
+            min-height: 100vh;
+            margin: 0;
+            color: var(--ink);
+            background-color: var(--paper);
+            background-image: radial-gradient(#c1e3ec 1px, transparent 1px);
+            background-size: 22px 22px;
+        }
+
+        .page {
+            width: min(100% - 48px, 1080px);
+            margin: 0 auto;
+            padding: 26px 0 44px;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 18px;
+            animation: enter 500ms ease-out both;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .brand-mark {
+            display: grid;
+            width: 58px;
+            height: 42px;
+            place-items: center;
+            color: white;
+            background: var(--green);
+            border-radius: 8px;
+            box-shadow: 3px 3px 0 #b4dfd4;
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .edition {
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .intro {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: end;
+            gap: 30px;
+            padding: 52px 0 36px;
+            animation: enter 600ms 80ms ease-out both;
+        }
+
+        .eyebrow {
+            margin: 0 0 12px;
+            color: var(--green);
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            max-width: 720px;
+            margin: 0;
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            font-size: 68px;
+            font-weight: 900;
+            line-height: 1.02;
+        }
+
+        .headline-color { color: var(--coral); }
+
+        .intro-note {
+            max-width: 225px;
+            margin: 0 0 5px;
+            color: var(--muted);
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.55;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            animation: enter 600ms 150ms ease-out both;
+        }
+
+        .section-head h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .deck-count {
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .decks {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .deck {
+            --accent: var(--green);
+            position: relative;
+            display: flex;
+            min-height: 294px;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 20px;
+            color: inherit;
+            background: #ffe783;
+            border: 3px solid #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            animation: enter 600ms ease-out both;
+            box-shadow: 0 5px 0 #ddc459;
+            transition: transform 160ms ease, box-shadow 160ms ease;
+        }
+
+        .deck:nth-child(2) { --accent: var(--green); background: #a8eedb; box-shadow: 0 5px 0 #75c7b1; animation-delay: 220ms; }
+        .deck:nth-child(3) { --accent: var(--blue); background: #ffc0a9; box-shadow: 0 5px 0 #df927b; animation-delay: 290ms; }
+
+        .deck:hover, .deck:focus-visible {
+            transform: translateY(-4px);
+            box-shadow: 0 9px 0 color-mix(in srgb, var(--accent) 36%, white);
+        }
+
+        .deck:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+        .deck-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .deck-number {
+            color: var(--accent);
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .deck-kind {
+            padding: 7px 10px;
+            color: var(--accent);
+            background: #ffffffb8;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+        }
+
+        .specimen {
+            display: flex;
+            height: 112px;
+            align-items: center;
+            margin: 8px 0 10px;
+            color: var(--ink);
+            font-family: "Trebuchet MS", "Noto Sans Telugu", sans-serif;
+            font-size: 88px;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .specimen.sequence { font-size: 57px; }
+
+        .deck h3 {
+            margin: 0;
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            font-size: 23px;
+            font-weight: 900;
+        }
+
+        .deck-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 14px;
+            color: #405465;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .arrow {
+            position: relative;
+            width: 32px;
+            height: 32px;
+            background: #ffffffa8;
+            border: 1px solid #ffffff;
+            border-radius: 50%;
+        }
+
+        .arrow::before {
+            position: absolute;
+            top: 10px;
+            left: 9px;
+            width: 9px;
+            height: 9px;
+            content: "";
+            border-top: 1.5px solid var(--ink);
+            border-right: 1.5px solid var(--ink);
+            transform: rotate(45deg);
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 28px;
+            padding-top: 16px;
+            color: var(--muted);
+            border-top: 2px dashed var(--line);
+            font-size: 12px;
+            font-weight: 700;
+            animation: enter 600ms 350ms ease-out both;
+        }
+
+        @keyframes enter {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 760px) {
+            .intro { padding-top: 42px; }
+            .decks { grid-template-columns: 1fr; }
+            .deck { min-height: 238px; }
+            .specimen { height: 84px; margin: 5px 0; font-size: 68px; }
+            .specimen.sequence { font-size: 48px; }
+        }
+
+        @media (max-width: 520px) {
+            .page { width: min(100% - 32px, 420px); padding-top: 20px; }
+            .edition { max-width: 110px; text-align: right; line-height: 1.4; }
+            .intro { grid-template-columns: 1fr; gap: 13px; padding: 36px 0 28px; }
+            .intro-note { max-width: 280px; }
+            h1 { font-size: 52px; }
+            footer { gap: 12px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <header class="topbar">
+            <div class="brand"><span class="brand-mark" aria-hidden="true">ABC</span> Letter Party</div>
+            <span class="edition">English + తెలుగు</span>
+        </header>
+
+        <section class="intro" aria-labelledby="page-title">
+            <div>
+                <p class="eyebrow">Pick a game!</p>
+                <h1 id="page-title">Let's play<br>with <span class="headline-color">letters!</span></h1>
+            </div>
+            <p class="intro-note">Pick a game and say each letter out loud!</p>
+        </section>
+
+        <section aria-labelledby="deck-heading">
+            <div class="section-head">
+                <h2 id="deck-heading">Pick your game</h2>
+                <span class="deck-count">3 games</span>
+            </div>
+            <div class="decks">
+                <a class="deck" href="flashcards__ABCD_random.html">
+                    <div class="deck-top"><span class="deck-number">01</span><span class="deck-kind">English</span></div>
+                    <div class="specimen" aria-hidden="true">G</div>
+                    <h3>Surprise me!</h3>
+                    <div class="deck-bottom"><span>Random English letters</span><span class="arrow" aria-hidden="true"></span></div>
+                </a>
+                <a class="deck" href="flashcards__ABCD_sequence.html">
+                    <div class="deck-top"><span class="deck-number">02</span><span class="deck-kind">English</span></div>
+                    <div class="specimen" aria-hidden="true">A–Z</div>
+                    <h3>Let's go A to Z!</h3>
+                    <div class="deck-bottom"><span>English letters in order</span><span class="arrow" aria-hidden="true"></span></div>
+                </a>
+                <a class="deck" href="flashcards__telugu_alpha_sequence.html">
+                    <div class="deck-top"><span class="deck-number">03</span><span class="deck-kind" lang="te">తెలుగు</span></div>
+                    <div class="specimen" lang="te" aria-hidden="true">అ</div>
+                    <h3>Telugu alphabet</h3>
+                    <div class="deck-bottom"><span>Telugu letters in order</span><span class="arrow" aria-hidden="true"></span></div>
+                </a>
+            </div>
+        </section>
+
+        <footer><span>Letter Party</span><span>English · తెలుగు</span></footer>
+    </main>
+</body>
+</html>
