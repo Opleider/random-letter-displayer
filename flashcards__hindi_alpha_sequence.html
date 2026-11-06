@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4f7f2">
+    <title>Hindi Alphabet Flashcards | Shuffler</title>
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: "Noto Sans Devanagari", Mangal, sans-serif;
+            color: #263445;
+            background: #eaf8ff;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            display: grid;
+            min-width: 320px;
+            min-height: 100vh;
+            min-height: 100svh;
+            margin: 0;
+            place-items: center;
+            background-image: radial-gradient(#c1e3ec 1px, transparent 1px);
+            background-size: 22px 22px;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 20px;
+            left: 24px;
+            color: #263445;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .back-link:focus-visible, button:focus-visible {
+            outline: 3px solid #16856e;
+            outline-offset: 3px;
+        }
+
+        .picture {
+            position: fixed;
+            top: 20px;
+            right: 24px;
+            display: grid;
+            width: 112px;
+            min-height: 112px;
+            padding: 10px;
+            place-items: center;
+            align-content: center;
+            gap: 4px;
+            background: #fff;
+            border: 2px solid #b9dce9;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .picture-emoji {
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+            font-size: 42px;
+            line-height: 1;
+        }
+
+        .picture-word {
+            color: #536b7c;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        main {
+            display: grid;
+            justify-items: center;
+            gap: 18px;
+            padding: 140px 24px 32px;
+            text-align: center;
+        }
+
+        .prompt {
+            margin: 0;
+            color: #16856e;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .letter {
+            min-width: 1em;
+            color: #263445;
+            font-size: clamp(120px, 30vw, 220px);
+            font-weight: 800;
+            line-height: 1.2;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .letter.visible { opacity: 1; }
+
+        .progress {
+            margin: 0;
+            color: #536b7c;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            min-width: 96px;
+            padding: 10px 16px;
+            color: #fff;
+            background: #16856e;
+            border: 0;
+            border-radius: 8px;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        button:hover { background: #116b59; }
+
+        @media (max-width: 520px) {
+            .back-link { top: 16px; left: 16px; }
+            .picture { top: 56px; right: 16px; width: 88px; min-height: 88px; }
+            .picture-emoji { font-size: 34px; }
+            .picture-word { font-size: 12px; }
+            main { padding-top: 150px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a class="back-link" href="index.html">← Shuffler</a>
+    <aside class="picture" aria-label="Letter picture">
+        <span class="picture-emoji" id="picture-emoji" aria-hidden="true"></span>
+        <span class="picture-word" id="picture-word"></span>
+    </aside>
+    <main>
+        <p class="prompt">हिंदी वर्णमाला</p>
+        <div class="letter" id="letter" aria-live="polite"></div>
+        <p class="progress" id="progress"></p>
+        <div class="controls">
+            <button type="button" id="previous">पिछला</button>
+            <button type="button" id="next">अगला</button>
+        </div>
+    </main>
+
+    <script>
+        const letters = [
+            { letter: 'अ', word: 'अनार', picture: '🍎' },
+            { letter: 'आ', word: 'आम', picture: '🥭' },
+            { letter: 'इ', word: 'इमली', picture: '🌿' },
+            { letter: 'ई', word: 'ईख', picture: '🌾' },
+            { letter: 'उ', word: 'उल्लू', picture: '🦉' },
+            { letter: 'ऊ', word: 'ऊन', picture: '🧶' },
+            { letter: 'ऋ', word: 'ऋषि', picture: '🧘' },
+            { letter: 'ए', word: 'एकतारा', picture: '🎸' },
+            { letter: 'ऐ', word: 'ऐनक', picture: '👓' },
+            { letter: 'ओ', word: 'ओखली', picture: '🥣' },
+            { letter: 'औ', word: 'औजार', picture: '🛠️' },
+            { letter: 'अं', word: 'अंगूठी', picture: '💍' },
+            { letter: 'अः', word: 'शब्दों के अंत में', picture: '🔤' },
+            { letter: 'क', word: 'कमल', picture: '🪷' },
+            { letter: 'ख', word: 'खरगोश', picture: '🐇' },
+            { letter: 'ग', word: 'गमला', picture: '🪴' },
+            { letter: 'घ', word: 'घड़ी', picture: '🕰️' },
+            { letter: 'ङ', word: 'दुर्लभ वर्ण', picture: '🔤' },
+            { letter: 'च', word: 'चम्मच', picture: '🥄' },
+            { letter: 'छ', word: 'छाता', picture: '☂️' },
+            { letter: 'ज', word: 'जहाज', picture: '🚢' },
+            { letter: 'झ', word: 'झूला', picture: '🎠' },
+            { letter: 'ञ', word: 'दुर्लभ वर्ण', picture: '🔤' },
+            { letter: 'ट', word: 'टमाटर', picture: '🍅' },
+            { letter: 'ठ', word: 'ठेला', picture: '🛒' },
+            { letter: 'ड', word: 'डमरू', picture: '🪘' },
+            { letter: 'ढ', word: 'ढोल', picture: '🥁' },
+            { letter: 'ण', word: 'दुर्लभ वर्ण', picture: '🔤' },
+            { letter: 'त', word: 'तरबूज', picture: '🍉' },
+            { letter: 'थ', word: 'थाली', picture: '🍽️' },
+            { letter: 'द', word: 'दरवाज़ा', picture: '🚪' },
+            { letter: 'ध', word: 'धनुष', picture: '🏹' },
+            { letter: 'न', word: 'नारियल', picture: '🥥' },
+            { letter: 'प', word: 'पतंग', picture: '🪁' },
+            { letter: 'फ', word: 'फल', picture: '🍎' },
+            { letter: 'ब', word: 'बतख', picture: '🦆' },
+            { letter: 'भ', word: 'भालू', picture: '🐻' },
+            { letter: 'म', word: 'मछली', picture: '🐟' },
+            { letter: 'य', word: 'यंत्र', picture: '⚙️' },
+            { letter: 'र', word: 'रथ', picture: '🛺' },
+            { letter: 'ल', word: 'लट्टू', picture: '🪀' },
+            { letter: 'व', word: 'विमान', picture: '✈️' },
+            { letter: 'श', word: 'शंख', picture: '🐚' },
+            { letter: 'ष', word: 'षट्कोण', picture: '🔷' },
+            { letter: 'स', word: 'सेब', picture: '🍎' },
+            { letter: 'ह', word: 'हाथी', picture: '🐘' }
+        ];
+
+        let index = 0;
+        const letterElement = document.getElementById('letter');
+        const pictureElement = document.getElementById('picture-emoji');
+        const wordElement = document.getElementById('picture-word');
+        const progressElement = document.getElementById('progress');
+        const fadeDuration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1000;
+        let fadeTimeout;
+
+        function showLetter() {
+            const current = letters[index];
+            letterElement.textContent = current.letter;
+            pictureElement.textContent = current.picture;
+            wordElement.textContent = current.word;
+            progressElement.textContent = `${index + 1} / ${letters.length}`;
+        }
+
+        function move(step) {
+            clearTimeout(fadeTimeout);
+            index = (index + step + letters.length) % letters.length;
+            letterElement.classList.remove('visible');
+            fadeTimeout = setTimeout(() => {
+                showLetter();
+                requestAnimationFrame(() => letterElement.classList.add('visible'));
+            }, fadeDuration);
+        }
+
+        document.getElementById('previous').addEventListener('click', () => move(-1));
+        document.getElementById('next').addEventListener('click', () => move(1));
+        showLetter();
+        requestAnimationFrame(() => letterElement.classList.add('visible'));
+        setInterval(() => move(1), 5000);
+    </script>
+</body>
+</html>

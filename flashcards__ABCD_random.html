@@ -3,30 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random English Alphabet Flashcards</title>
+    <meta name="theme-color" content="#f4f7f2">
+    <title>Random English Alphabet Flashcards | Shuffler</title>
     <style>
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f0f0f0;
+        :root {
+            color-scheme: light;
             font-family: Arial, sans-serif;
+            color: #263445;
+            background: #eaf8ff;
         }
-        .flashcard {
-            font-size: 5em; /* H1 size */
+
+        * { box-sizing: border-box; }
+
+        body {
+            display: grid;
+            min-width: 320px;
+            min-height: 100vh;
+            min-height: 100svh;
+            margin: 0;
+            place-items: center;
+            background-image: radial-gradient(#c1e3ec 1px, transparent 1px);
+            background-size: 22px 22px;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 20px;
+            left: 24px;
+            color: #263445;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .picture {
+            position: fixed;
+            top: 20px;
+            right: 24px;
+            display: grid;
+            width: 112px;
+            min-height: 112px;
+            padding: 10px;
+            place-items: center;
+            align-content: center;
+            gap: 4px;
+            background: #fff;
+            border: 2px solid #b9dce9;
+            border-radius: 12px;
+            text-align: center;
             transition: opacity 1s ease-in-out;
-            opacity: 1;
+        }
+
+        .picture-emoji {
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+            font-size: 42px;
+            line-height: 1;
+        }
+
+        .picture-word {
+            color: #536b7c;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        main {
+            display: grid;
+            justify-items: center;
+            gap: 18px;
+            padding: 32px 24px;
+            text-align: center;
+        }
+
+        .prompt {
+            margin: 0;
+            color: #16856e;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .letter {
+            min-width: 1em;
+            color: #263445;
+            font-size: clamp(120px, 30vw, 220px);
+            font-weight: 800;
+            line-height: 1.2;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .letter.visible { opacity: 1; }
+
+        @media (max-width: 520px) {
+            .back-link { top: 16px; left: 16px; }
+            .picture { top: 56px; right: 16px; width: 88px; min-height: 88px; }
+            .picture-emoji { font-size: 34px; }
+            .picture-word { font-size: 12px; }
+            main { padding-top: 150px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { transition-duration: 0.01ms !important; }
         }
     </style>
 </head>
 <body>
-    <div class="flashcard" id="flashcard"></div>
+    <a class="back-link" href="index.html">← Shuffler</a>
+    <aside class="picture" aria-label="Picture for the current letter">
+        <span class="picture-emoji" id="picture-emoji" aria-hidden="true"></span>
+        <span class="picture-word" id="picture-word"></span>
+    </aside>
+    <main>
+        <p class="prompt">Random English letters</p>
+        <div class="letter" id="letter" aria-live="polite"></div>
+    </main>
 
     <script>
         const englishAlphabets = [
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
-            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+            { letter: 'A', word: 'Apple', picture: '🍎' },
+            { letter: 'B', word: 'Ball', picture: '⚽' },
+            { letter: 'C', word: 'Cat', picture: '🐈' },
+            { letter: 'D', word: 'Dog', picture: '🐕' },
+            { letter: 'E', word: 'Elephant', picture: '🐘' },
+            { letter: 'F', word: 'Fish', picture: '🐟' },
+            { letter: 'G', word: 'Grapes', picture: '🍇' },
+            { letter: 'H', word: 'House', picture: '🏠' },
+            { letter: 'I', word: 'Ice cream', picture: '🍦' },
+            { letter: 'J', word: 'Juice', picture: '🧃' },
+            { letter: 'K', word: 'Kite', picture: '🪁' },
+            { letter: 'L', word: 'Lion', picture: '🦁' },
+            { letter: 'M', word: 'Moon', picture: '🌙' },
+            { letter: 'N', word: 'Nest', picture: '🪺' },
+            { letter: 'O', word: 'Orange', picture: '🍊' },
+            { letter: 'P', word: 'Panda', picture: '🐼' },
+            { letter: 'Q', word: 'Quilt', picture: '🛏️' },
+            { letter: 'R', word: 'Rabbit', picture: '🐇' },
+            { letter: 'S', word: 'Sun', picture: '☀️' },
+            { letter: 'T', word: 'Tree', picture: '🌳' },
+            { letter: 'U', word: 'Umbrella', picture: '☂️' },
+            { letter: 'V', word: 'Van', picture: '🚐' },
+            { letter: 'W', word: 'Whale', picture: '🐋' },
+            { letter: 'X', word: 'Xylophone', picture: '🎼' },
+            { letter: 'Y', word: 'Yo-yo', picture: '🪀' },
+            { letter: 'Z', word: 'Zebra', picture: '🦓' }
         ];
 
         function getRandomAlphabet() {
@@ -34,17 +152,27 @@
             return englishAlphabets[randomIndex];
         }
 
+        const letterElement = document.getElementById('letter');
+        const pictureElement = document.getElementById('picture-emoji');
+        const wordElement = document.getElementById('picture-word');
+        const pictureCard = document.querySelector('.picture');
+        const fadeDuration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1000;
+
         function displayAlphabet() {
-            const flashcard = document.getElementById('flashcard');
-            flashcard.style.opacity = 0; // Fade out
+            letterElement.classList.remove('visible');
+            pictureCard.style.opacity = 0;
             setTimeout(() => {
-                flashcard.textContent = getRandomAlphabet(); // Update card with a random letter
-                flashcard.style.opacity = 1; // Fade in
-            }, 1000); // Wait for opacity transition to complete
+                const current = getRandomAlphabet();
+                letterElement.textContent = current.letter;
+                pictureElement.textContent = current.picture;
+                wordElement.textContent = current.word;
+                pictureCard.style.opacity = 1;
+                requestAnimationFrame(() => letterElement.classList.add('visible'));
+            }, fadeDuration);
         }
 
-        setInterval(displayAlphabet, 5000); // Change every 5 seconds
-        displayAlphabet(); // Initial call
+        setInterval(displayAlphabet, 5000);
+        displayAlphabet();
     </script>
 </body>
 </html>
