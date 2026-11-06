@@ -132,7 +132,7 @@
 
         .decks {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: 18px;
         }
 
@@ -156,6 +156,7 @@
 
         .deck:nth-child(2) { --accent: var(--green); background: #a8eedb; box-shadow: 0 5px 0 #75c7b1; animation-delay: 220ms; }
         .deck:nth-child(3) { --accent: var(--blue); background: #ffc0a9; box-shadow: 0 5px 0 #df927b; animation-delay: 290ms; }
+        .deck:nth-child(4) { --accent: var(--coral); background: #d7c6ff; box-shadow: 0 5px 0 #ae96e8; animation-delay: 360ms; }
 
         .deck:hover, .deck:focus-visible {
             transform: translateY(-4px);
@@ -288,7 +289,7 @@
     <main class="page">
         <header class="topbar">
             <div class="brand"><span class="brand-mark" aria-hidden="true">ABC</span> Shuffler</div>
-            <span class="edition">English + తెలుగు</span>
+            <span class="edition">English + తెలుగు + हिंदी</span>
         </header>
 
         <section class="intro" aria-labelledby="page-title">
@@ -302,7 +303,7 @@
         <section aria-labelledby="deck-heading">
             <div class="section-head">
                 <h2 id="deck-heading">Pick your game</h2>
-                <span class="deck-count">3 games</span>
+                <span class="deck-count">4 games</span>
             </div>
             <div class="decks">
                 <a class="deck" href="flashcards__ABCD_random.html">
@@ -323,10 +324,16 @@
                     <h3>Telugu alphabet</h3>
                     <div class="deck-bottom"><span>Telugu letters in order</span><span class="arrow" aria-hidden="true"></span></div>
                 </a>
+                <a class="deck" href="flashcards__hindi_alpha_sequence.html">
+                    <div class="deck-top"><span class="deck-number">04</span><span class="deck-kind" lang="hi">हिंदी</span></div>
+                    <div class="specimen" lang="hi" aria-hidden="true">अ</div>
+                    <h3>Hindi alphabet</h3>
+                    <div class="deck-bottom"><span>Hindi letters in order</span><span class="arrow" aria-hidden="true"></span></div>
+                </a>
             </div>
         </section>
 
-        <footer><span>Shuffler</span><span>English · తెలుగు</span></footer>
+        <footer><span>Shuffler</span><span>English · తెలుగు · हिंदी</span></footer>
     </main>
 </body>
 </html>
